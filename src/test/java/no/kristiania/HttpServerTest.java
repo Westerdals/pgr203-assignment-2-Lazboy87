@@ -24,7 +24,16 @@ class HttpServerTest {
       assertEquals(200, client.execute().getStatusCode());
 
     }
+
+    @Test
+    void shouldReturnStatusCode401() throws IOException {
+        HttpServer server = new HttpServer(0);
+        server.start();
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/echo?status=401");
+        assertEquals(401, client.execute().getStatusCode());
+    }
     /*
+    215
     private HttpServer server;
 
     @BeforeEach

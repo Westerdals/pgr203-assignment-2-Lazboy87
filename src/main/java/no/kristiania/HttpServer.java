@@ -29,9 +29,23 @@ public class HttpServer {
 
     private void run() {
         try {
+
             Socket socket = serverSocket.accept();
 
-            socket.getOutputStream().write(("HTTP/1.0 200 OK\r\n" +
+            String requestLine = HttpClient.readLine(socket.getInputStream());
+            String statusCode = "200";
+
+            String requestTarget = requestLine.split(" ")[1];
+            int questionPos = requestTarget.indexOf('?');
+            if(questionPos != -1) {
+                String querry = requestTarget.substring(questionPos);
+                int equalPos = querry.indexOf('=');
+                String parameterValue = querry.substring(equalPos+1);
+                statusCode = parameterValue;
+            }
+
+
+            socket.getOutputStream().write(("HTTP/1.0 " + statusCode + " OK\r\n" +
                     "Content-length: 12 \r\n" +
                     "\r\n" +
                     "Hello World!").getBytes());
