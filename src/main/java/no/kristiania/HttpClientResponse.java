@@ -13,4 +13,7 @@ public class HttpClientResponse {
 
     }
 
+    public String getHeader(String s) {
+        return null;
+    }
 }
