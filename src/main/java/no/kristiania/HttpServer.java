@@ -32,6 +32,7 @@ public class HttpServer {
 
             Socket socket = serverSocket.accept();
 
+            HttpServerRequest request = new HttpServerRequest();
             String requestLine = HttpClient.readLine(socket.getInputStream());
             String statusCode = "200";
 
@@ -43,6 +44,7 @@ public class HttpServer {
                 String parameterValue = query.substring(equalPos+1);
                 statusCode = parameterValue;
             }
+
 
 
             socket.getOutputStream().write(("HTTP/1.0 " + statusCode + " OK\r\n" +
