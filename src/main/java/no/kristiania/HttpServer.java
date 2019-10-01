@@ -30,9 +30,9 @@ public class HttpServer {
 
             Socket socket = serverSocket.accept();
 
-            HttpServerRequest request = new HttpServerRequest();
+            HttpServerRequest request = new HttpServerRequest(socket.getInputStream());
+            String requestLine = request.getStartLine();
 
-            String requestLine = HttpClientResponse.readLine(socket.getInputStream());
             String statusCode = "200";
 
             String requestTarget = requestLine.split(" ")[1];

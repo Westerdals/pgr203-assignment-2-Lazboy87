@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpMessage {
-    private final String body;
-    private String startLine;
-    private Map<String, String> headers = new HashMap<>();
+    protected String body;
+    protected String startLine;
+    protected Map<String, String> headers = new HashMap<>();
 
-    public HttpClientResponse(InputStream inputStream) throws IOException{
+    public HttpMessage(InputStream inputStream) throws IOException{
 
         startLine = readLine(inputStream);
 
@@ -22,7 +22,11 @@ public class HttpMessage {
             System.out.println("HEADER: " + headerName + "->" + headerValue);
             headers.put(headerName.toLowerCase(),headerValue);
         }
-        this.body = readBytes(inputStream, getContentLenght());
+        if(getHeader("content-length") != null){
+            this.body = readBytes(inputStream, getContentLenght());
+        }
+
+
     }
 
     public String getHeader(String headerName) {
@@ -34,8 +38,6 @@ public class HttpMessage {
     }
 
 
-    public HttpMessage(InputStream inputStream) {
-    }
 
 
     public static String readLine(InputStream inputStream) throws IOException {
@@ -61,4 +63,9 @@ public class HttpMessage {
 
         return body.toString();
     }
+
+    public String getStartLine() {
+        return startLine;
+    }
+
 }
