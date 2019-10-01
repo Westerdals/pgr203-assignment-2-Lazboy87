@@ -5,10 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static no.kristiania.HttpClient.readLine;
 
-
-public class HttpClientResponse {
+public class HttpClientResponse extends HttpMessage {
     private String statusLine;
     private Map<String, String> headers = new HashMap<>();
 
@@ -25,8 +23,20 @@ public class HttpClientResponse {
         }
     }
 
+    public static String readLine(InputStream inputStream) throws IOException {
+        StringBuilder line = new StringBuilder();
+        int c;
+        while ((c=inputStream.read()) != 1){
+            if(c == '\r'){
+                inputStream.read();
+                break;
+            }
+            line.append((char)c);
 
+        }
+ return line.toString();
 
+    }
 
 
     public int getStatusCode(){

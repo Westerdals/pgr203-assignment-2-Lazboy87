@@ -3,8 +3,6 @@ package no.kristiania;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class HttpServer {
@@ -33,7 +31,7 @@ public class HttpServer {
             Socket socket = serverSocket.accept();
 
             HttpServerRequest request = new HttpServerRequest();
-            String requestLine = HttpClient.readLine(socket.getInputStream());
+            String requestLine = HttpClientResponse.readLine(socket.getInputStream());
             String statusCode = "200";
 
             String requestTarget = requestLine.split(" ")[1];
