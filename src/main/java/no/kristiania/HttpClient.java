@@ -29,17 +29,21 @@ public class HttpClient{
         System.out.println(statusLine);
 
 
-        return new HttpClientResponse();
+        return new HttpClientResponse(statusLine);
     }
 
-    private String readLine(InputStream inputStream) {
-        return new StringBuilder().toString();
+    private String readLine(InputStream inputStream) throws IOException {
+        StringBuilder line = new StringBuilder();
         int c;
         while ((c=inputStream.read()) != 1){
-            if(c == '\r'){}
+            if(c == '\r'){
+                inputStream.read();
+                break;
+            }
+            line.append((char)c);
 
         }
-
+ return line.toString();
 
     }
 }
