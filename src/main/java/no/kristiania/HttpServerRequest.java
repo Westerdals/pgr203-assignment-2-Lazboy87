@@ -1,4 +1,4 @@
 package no.kristiania;
 
-public class HttpServerRequest {
+public class HttpServerRequest extends HttpMessage{
 }

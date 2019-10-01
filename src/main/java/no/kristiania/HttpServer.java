@@ -31,6 +31,7 @@ public class HttpServer {
             Socket socket = serverSocket.accept();
 
             HttpServerRequest request = new HttpServerRequest();
+
             String requestLine = HttpClientResponse.readLine(socket.getInputStream());
             String statusCode = "200";
 
