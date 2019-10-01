@@ -1,43 +1,45 @@
 package no.kristiania;
 
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 
-public class HttpClient {
+public class HttpClient{
 
-    private String host;
-    private int statusCode = 200;
-    private String requestTarget;
-    private String statusLine;
-    private int port;
+    private final String hostname;
+    private final int port;
+    private final String requestTarget;
 
-    public HttpClient(String host, int port, String requestTarget){
-        this.host = host;
-        this.requestTarget = requestTarget;
+    public HttpClient(String hostname, int port, String requestTarget) {
+
+        this.hostname = hostname;
         this.port = port;
-    }
-    public static void main(String[] args) throws IOException {
-
-        new HttpClient("urlecho.appspot.com", 80, "/echo?status=200&Content-Type=text%2Fhtml&body=Hello%20world!").executeRequest();
+        this.requestTarget = requestTarget;
     }
 
-    public HttpClientResponse executeRequest() throws IOException {
-        try(  Socket socket = new Socket(host, port)) {
+
+    public HttpClientResponse execute()throws IOException {
+        Socket socket = new Socket(hostname,port);
+        socket.getOutputStream().write(("GET " + requestTarget + " HTTP/1.1\r\n" +
+                "Host: "+ hostname +"\r\n" +
+                "\r\n").getBytes());
+        socket.getOutputStream().flush();
+
+        String statusLine = readLine(socket.getInputStream());
+        System.out.println(statusLine);
 
 
-            socket.getOutputStream().write(("GET " + requestTarget + " HTTP/1.1\r\n").getBytes());
-            socket.getOutputStream().write(("Host: " + host + "\r\n").getBytes());
-            socket.getOutputStream().write("Connection: close\r\n".getBytes());
-            socket.getOutputStream().write("\r\n".getBytes());
-            socket.getOutputStream().flush();
+        return new HttpClientResponse();
+    }
 
-            HttpClientResponse httpClientResponse = new HttpClientResponse(socket);
-            httpClientResponse.invoke();
-            return httpClientResponse;
+    private String readLine(InputStream inputStream) {
+        return new StringBuilder().toString();
+        int c;
+        while ((c=inputStream.read()) != 1){
+            if(c == '\r'){}
 
         }
 
-    }
 
+    }
 }
