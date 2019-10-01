@@ -38,9 +38,9 @@ public class HttpServer {
             String requestTarget = requestLine.split(" ")[1];
             int questionPos = requestTarget.indexOf('?');
             if(questionPos != -1) {
-                String querry = requestTarget.substring(questionPos);
-                int equalPos = querry.indexOf('=');
-                String parameterValue = querry.substring(equalPos+1);
+                String query = requestTarget.substring(questionPos);
+                int equalPos = query.indexOf('=');
+                String parameterValue = query.substring(equalPos+1);
                 statusCode = parameterValue;
             }
 
