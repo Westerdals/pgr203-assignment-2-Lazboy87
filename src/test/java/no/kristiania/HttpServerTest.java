@@ -21,7 +21,7 @@ class HttpServerTest {
       HttpServer server = new HttpServer(0);
       server.start();
       HttpClient client = new HttpClient("localhost", server.getPort(), "/echo");
-      assertEquals(200, client.executeRequest().getStatusCode());
+      assertEquals(200, client.execute().getStatusCode());
 
     }
     /*
