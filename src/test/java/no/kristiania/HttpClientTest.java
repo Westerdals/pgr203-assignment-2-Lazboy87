@@ -10,15 +10,15 @@ class HttpClientTest {
 
     @Test
     void shouldExecuteHttprequest() throws IOException {
-        HttpClient client=new HttpClient("urlecho.appspot.com", 80, "/echo");
+        HttpClient client=new HttpClient(URLECHO, 80, "/echo");
         assertEquals(200, client.execute().getStatusCode());}
     @Test
     void shouldReadStatusCode() throws IOException {
-        HttpClient client = new HttpClient("urlecho.appspot.com", 80, "/echo?status=401");
+        HttpClient client = new HttpClient(URLECHO, 80, "/echo?status=401");
         assertEquals(401, client.execute().getStatusCode()); }
 @Test
     void shouldReadHeaders() throws IOException {
-        HttpClient client = new HttpClient("urlecho.appspot.com", 80, "/echo?content-type=text/html");
-        assertEquals("text/html", client.execute().getHeader("Content-type")); }
+        HttpClient client = new HttpClient(URLECHO, 80, "/echo?content-type=text/plain");
+        assertEquals("text/plain; charset=utf-8", client.execute().getHeader("Content-type")); }
 
 }
