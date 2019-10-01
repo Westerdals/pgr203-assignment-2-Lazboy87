@@ -7,12 +7,14 @@ import java.util.Map;
 
 
 public class HttpClientResponse extends HttpMessage {
-    private String statusLine;
+    private final String body;
+    private String startLine;
     private Map<String, String> headers = new HashMap<>();
 
     public HttpClientResponse(InputStream inputStream) throws IOException{
-        statusLine = readLine(inputStream);
-        System.out.println(statusLine);
+        super(inputStream);
+        startLine = readLine(inputStream);
+        System.out.println(startLine);
         String headerLine;
         while (!(headerLine = readLine(inputStream)).isBlank()){
             int colonPos = headerLine.indexOf(':');
@@ -21,6 +23,7 @@ public class HttpClientResponse extends HttpMessage {
             System.out.println("HEADER: " + headerName + "->" + headerValue);
             headers.put(headerName.toLowerCase(),headerValue);
         }
+        this.body = readBytes(inputStream, getContentLenght());
     }
 
     public static String readLine(InputStream inputStream) throws IOException {
@@ -40,7 +43,7 @@ public class HttpClientResponse extends HttpMessage {
 
 
     public int getStatusCode(){
-        return Integer.parseInt(statusLine.split(" ")[1]);
+        return Integer.parseInt(startLine.split(" ")[1]);
 
     }
 
@@ -50,5 +53,9 @@ public class HttpClientResponse extends HttpMessage {
 
     public int getContentLenght() {
         return Integer.parseInt(getHeader("content-Length"));
+    }
+
+    public String getBody() {
+        return body;
     }
 }

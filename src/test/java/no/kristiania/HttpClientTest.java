@@ -25,7 +25,11 @@ class HttpClientTest {
         assertEquals("text/plain; charset=utf-8", client.execute().getHeader("Content-type")); }
         @Test
     void shouldReadContentLength() throws IOException {
-        HttpClient client = new HttpClient("urlecho.appspot.com", 80, "/echo?body=Hello+world!");
+        HttpClient client = new HttpClient("urlecho.appspot.com", 80, "/echo?body=hello+world!");
         assertEquals(12, client.execute().getContentLenght()); }
+        @Test
+    void shouldReadBody() throws IOException {
+        HttpClient client = new HttpClient("urlecho.appspot.com", 80, "/echo?body=hello+world!");
+        assertEquals("hello world!", client.execute().getBody()); }
 
 }
