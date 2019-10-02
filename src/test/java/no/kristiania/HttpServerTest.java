@@ -32,14 +32,13 @@ class HttpServerTest {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/echo?status=401");
         assertEquals(401, client.execute().getStatusCode());
     }
-    /*
-    215
+
     private HttpServer server;
 
     @BeforeEach
     void setUp() throws IOException {
         server = new HttpServer(0);
-        server.startServer();
+        server.start();
     }
 
 
@@ -47,17 +46,17 @@ class HttpServerTest {
     @Test
     void shouldGetRequestedStatusCode() throws IOException{
         HttpClient client = new HttpClient("localhost", server.getPort(),"/echo?status=401");
-        HttpClientResponse response = client.executeRequest();
+        HttpClientResponse response = client.execute();
         assertEquals(401,response.getStatusCode());
     }
 
     @Test
     void shouldReturnResponseHeader() throws IOException{
         HttpClient httpClient = new HttpClient("localhost", server.getPort(),
-                "/echo?status=302&Location=http://example.com");
-        HttpClientResponse response = httpClient.executeRequest();
+                "/echo?status=302&location=http://example.com");
+        HttpClientResponse response = httpClient.execute();
         assertEquals(302,response.getStatusCode());
-        assertEquals("http://example.com",response.getHeader("Location"));
+        assertEquals("http://example.com",response.getHeader("location"));
     }
-*/
+
 }
