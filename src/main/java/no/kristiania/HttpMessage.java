@@ -22,10 +22,8 @@ public class HttpMessage {
             System.out.println("HEADER: " + headerName + "->" + headerValue);
             headers.put(headerName.toLowerCase(),headerValue);
         }
-        if(getHeader("content-length") != null){
-            this.body = readBytes(inputStream, getContentLenght());
-        }
-
+       if(getHeader("content-Length") != null){
+            this.body = readBytes(inputStream, Integer.parseInt(getHeader("content-Length")));}
 
     }
 
@@ -36,8 +34,6 @@ public class HttpMessage {
     public int getContentLenght() {
         return Integer.parseInt(getHeader("content-Length"));
     }
-
-
 
 
     public static String readLine(InputStream inputStream) throws IOException {
@@ -65,7 +61,8 @@ public class HttpMessage {
     }
 
     public String getStartLine() {
-        return startLine;
+     return startLine;
     }
+
 
 }
