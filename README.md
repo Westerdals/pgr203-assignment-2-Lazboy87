@@ -1,16 +1,16 @@
 # <Skriv tittel på prosjektet>
 
-[![Build Status](https://travis-ci.com/Westerdals/prosjektnavn.svg?token=Sj4fcBr8hVerjvQWkoAz&branch=master)](https://travis-ci.com/Westerdals/prosjektnavn)
+[![Build Status](https://travis-ci.com/Westerdals/pgr203-assignment-2-Lazboy87.svg?token=u5uiMCxAwytqi2hpiwkt&branch=master)](https://travis-ci.com/Westerdals/pgr203-assignment-2-Lazboy87)
 
 <En kort forklaring på hva dette prosjektet inneholder>
 
 ## Usage
 
-1. <Hvilken kommando bruker man for å bygge prosjektet>
-2. <Hvilken kommando bruker man for å starte serveren>
-3. <En url for å vise en webside>
-4. <En url for å kalle ECHO>
-5. <En til url for å kalle ECHO>
+1. <mvn package>
+2. <-jar http-server-1.0-SNAPSHOT.jar>
+3. <http://localhost:8080/index.html>
+4. </echo?status=302&location=http://example.com>
+5. </echo?body=helloWorld!>
  
  ## Design (valgfritt)
  
@@ -20,5 +20,10 @@
  
 <Hva gjorde dere godt i implementasjonen>
 
+Vi jobbet godt sammen under implimentajsonen og kodet godt i parrkoding
+
 <Hva følte dere at dere ikke fikk til i implementasjonen>
+
+Mye av koden var vanskelig og forstå vi brukte derfor lang tid på og rette feil i tester og classer.
+Måtte slette Git for og starte på nytt grunnet mye 
 
