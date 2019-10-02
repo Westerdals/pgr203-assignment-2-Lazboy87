@@ -1,4 +1,4 @@
-# <Lasse Og Fredrikk sit filserver prosjekt>
+Lasse Og Fredrikk sit filserver prosjekt
 
 [![Build Status](https://travis-ci.com/Westerdals/pgr203-assignment-2-Lazboy87.svg?token=u5uiMCxAwytqi2hpiwkt&branch=master)](https://travis-ci.com/Westerdals/pgr203-assignment-2-Lazboy87)
 
