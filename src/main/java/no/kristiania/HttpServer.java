@@ -3,6 +3,8 @@ package no.kristiania;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HttpServer {
@@ -36,26 +38,12 @@ public class HttpServer {
             HttpServerRequest request = new HttpServerRequest(socket.getInputStream());
             String requestLine = request.getStartLine();
 
-            String statusCode = "200";
-            String location = null;
+
 
             String requestTarget = requestLine.split(" ")[1];
-            int questionPos = requestTarget.indexOf('?');
-            if(questionPos != -1) {
-                String query = requestTarget.substring(questionPos+1);
-                for (String parameter : query.split("&")) {
-                    int equalPos = parameter.indexOf('=');
-                    String parameterValue = parameter.substring(equalPos+1);
-                    String parameterName =  parameter.substring(0,equalPos);
-                    if(parameterName.equals("status")){
-                        statusCode = parameterValue;
-                    }
-                    if (parameterName.equals("location")){
-                        location= parameterValue;
-                    }
-
-                }
-            }
+            Map<String, String> requestParameters = parseRequestParameters(requestTarget);
+            String statusCode = requestParameters.getOrDefault("status", "200");
+            String location = requestParameters.get("location");
 
 
 
@@ -67,6 +55,22 @@ public class HttpServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Map<String, String> parseRequestParameters(String requestTarget) {
+        Map<String, String> requestParameters = new HashMap<>();
+        int questionPos = requestTarget.indexOf('?');
+        if(questionPos != -1) {
+            String query = requestTarget.substring(questionPos+1);
+            for (String parameter : query.split("&")) {
+                int equalPos = parameter.indexOf('=');
+                String parameterValue = parameter.substring(equalPos+1);
+                String parameterName =  parameter.substring(0,equalPos);
+                requestParameters.put(parameterName, parameterValue);
+
+            }
+        }
+        return requestParameters;
     }
 
     public int getPort(){

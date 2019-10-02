@@ -11,7 +11,7 @@ Maven prosjektet skal bygge en executable jar fil med `mvn package` og denne den
 
 ## Sjekkliste for å få godkjent
 
-* [ ] Koden er sjekket inn på github.com/Westerdals-repository
+* [x ] Koden er sjekket inn på github.com/Westerdals-repository
 * [ ] `README.md` inneholder en korrekt link til Travis CI
 * [ ] `mvn package` bygger en executable jar-fil
 * [ ] `java -jar target/...jar` (etter `mvn package`) starter opp en webserver
