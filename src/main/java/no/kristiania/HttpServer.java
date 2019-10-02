@@ -44,14 +44,14 @@ public class HttpServer {
             Map<String, String> requestParameters = parseRequestParameters(requestTarget);
             String statusCode = requestParameters.getOrDefault("status", "200");
             String location = requestParameters.get("location");
-
-
+            String body = requestParameters.getOrDefault("body","Hello World!");
 
             socket.getOutputStream().write(("HTTP/1.0 " + statusCode + " OK\r\n" +
-                    "Content-length: 12 \r\n" +
+
+                    "Content-length: "+ body.length() + "\r\n" +
                             (location != null ? "Location: " + location +"\r\n" : "") +
                     "\r\n" +
-                    "Hello World!").getBytes());
+                    body).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

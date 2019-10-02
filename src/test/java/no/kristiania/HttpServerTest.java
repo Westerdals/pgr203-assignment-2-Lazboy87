@@ -56,7 +56,12 @@ class HttpServerTest {
                 "/echo?status=302&location=http://example.com");
         HttpClientResponse response = httpClient.execute();
         assertEquals(302,response.getStatusCode());
-        assertEquals("http://example.com",response.getHeader("location"));
+        assertEquals("http://example.com",response.getHeader("location"));}
+
+    @Test
+
+    void shouldReadBody() throws IOException {
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/echo?body=helloWorld!");
+        assertEquals("helloWorld!", client.execute().getBody()); }
     }
 
-}
