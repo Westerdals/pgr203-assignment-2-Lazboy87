@@ -7,10 +7,10 @@ Dette prosjektet inneholder en java client og server som som kan lese fra fil og
 ## Usage
 
 1. mvn package
-2. <-jar http-server-1.0-SNAPSHOT.jar>
-3. <http://localhost:8080/index.html>
-4. </echo?status=302&location=http://example.com>
-5. </echo?body=helloWorld!>
+2. java -jar http-server-1.0-SNAPSHOT.jar
+3. http://localhost:8080/index.html
+4. http://localhost:8080/echo?status=302&location=http://example.com
+5. http://localhost:8080/echo?body=helloWorld!
  
  ## Design (valgfritt)
  

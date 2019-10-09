@@ -13,16 +13,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HttpServerTest {
 
+    private HttpServer server;
 
-    @Test
-    void mathShouldWork() {
-        assertEquals(4, 2 + 2);
+    @BeforeEach
+    void setUp() throws IOException {
+        server = new HttpServer(0);
+        server.start();
     }
+
 
     @Test
     void shouldGet200StatusCode() throws IOException {
-        HttpServer server = new HttpServer(0);
-        server.start();
         HttpClient client = new HttpClient("localhost", server.getPort(), "/echo");
         assertEquals(200, client.execute().getStatusCode());
 
@@ -30,18 +31,10 @@ class HttpServerTest {
 
     @Test
     void shouldReturnStatusCode401() throws IOException {
-        HttpServer server = new HttpServer(0);
-        server.start();
+
+
         HttpClient client = new HttpClient("localhost", server.getPort(), "/echo?status=401");
         assertEquals(401, client.execute().getStatusCode());
-    }
-
-    private HttpServer server;
-
-    @BeforeEach
-    void setUp() throws IOException {
-        server = new HttpServer(0);
-        server.start();
     }
 
 
@@ -76,6 +69,19 @@ class HttpServerTest {
         HttpClient client = new HttpClient("localhost", server.getPort(), "/myfile.txt");
         HttpClientResponse response = client.execute();
         assertEquals(text, response.getBody());
+    }
+
+    @Test
+    void shouldRun2echorequest() throws IOException {
+        String text = "Hello Kristiania";
+        Files.writeString(Paths.get("target/myfile.txt"), text);
+        server.setFileLocation("target");
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/myfile.txt");
+        HttpClientResponse response = client.execute();
+        assertEquals(text, response.getBody());
+        HttpClientResponse response2 = client.execute();
+        assertEquals(text, response2.getBody());
+
     }
 
 }

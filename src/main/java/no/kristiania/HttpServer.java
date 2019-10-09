@@ -25,7 +25,6 @@ public class HttpServer {
         httpServer.setFileLocation("src/main/resources");
         httpServer.start();
 
-
     }
 
     void start() {
@@ -35,46 +34,45 @@ public class HttpServer {
     }
 
     private void run() {
-        try {
+        while (true) {
+            try {
+                Socket socket = serverSocket.accept();
+                HttpServerRequest request = new HttpServerRequest(socket.getInputStream());
+                String requestLine = request.getStartLine();
 
-            Socket socket = serverSocket.accept();
+                String requestTarget = requestLine.split(" ")[1];
+                int questionPos = requestTarget.indexOf('?');
 
-            HttpServerRequest request = new HttpServerRequest(socket.getInputStream());
-            String requestLine = request.getStartLine();
+                String query = questionPos != -1 ? requestTarget.substring(questionPos + 1) : null;
+                String requestPath = questionPos != -1 ? requestTarget.substring(0, questionPos) : requestTarget;
+
+                Map<String, String> requestParameters = parseRequestParameters(query);
+
+                if (!requestPath.equals("/echo")) {
+
+                    File file = new File(fileLocation + requestPath);
+                    socket.getOutputStream().write(("HTTP/1.1 200 OK\r\n" +
+                            "Content-length: " + file.length() + "\r\n" +
+                            "Connection: close\r\n" +
+                            "\r\n").getBytes());
+                    new FileInputStream(file).transferTo(socket.getOutputStream());
 
 
-            String requestTarget = requestLine.split(" ")[1];
+                }
 
-            int questionPos = requestTarget.indexOf('?');
-            String query = questionPos != -1 ? requestTarget.substring(questionPos + 1) : null;
-            String requestPath = questionPos != -1 ? requestTarget.substring(0, questionPos) : requestTarget;
+                String statusCode = requestParameters.getOrDefault("status", "200");
+                String location = requestParameters.get("location");
+                String body = requestParameters.getOrDefault("body", "Hello World!");
 
-            Map<String, String> requestParameters = parseRequestParameters(query);
+                socket.getOutputStream().write(("HTTP/1.0 " + statusCode + " OK\r\n" +
 
-            if (!requestPath.equals("/echo")) {
-
-                File file = new File(fileLocation + requestPath);
-                socket.getOutputStream().write(("HTTP/1.1 200 OK\r\n" +
-                        "Content-length: " + file.length() + "\r\n" +
-                        "Connection: close\r\n" +
-                        "\r\n").getBytes());
-                new FileInputStream(file).transferTo(socket.getOutputStream());
-
-                return;
+                        "Content-length: " + body.length() + "\r\n" +
+                        (location != null ? "Location: " + location + "\r\n" : "") +
+                        "\r\n" +
+                        body).getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            String statusCode = requestParameters.getOrDefault("status", "200");
-            String location = requestParameters.get("location");
-            String body = requestParameters.getOrDefault("body", "Hello World!");
-
-            socket.getOutputStream().write(("HTTP/1.0 " + statusCode + " OK\r\n" +
-
-                    "Content-length: " + body.length() + "\r\n" +
-                    (location != null ? "Location: " + location + "\r\n" : "") +
-                    "\r\n" +
-                    body).getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
